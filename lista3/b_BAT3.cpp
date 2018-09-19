@@ -10,17 +10,13 @@ int calc_lis(vector<int> & vet, int ini, int fim, vector<int> & best){
 	vector<int> lis(fim + 1, INF);
 	lis[0] = _INF;
 	lis[1] = vet[ini];
+	int res = 1;
 	for (int i = ini; i < fim; i++){
 		auto pos = lower_bound(lis.begin(), lis.end(), vet[i]);
 		if (pos == lis.end()) continue;
 		lis[pos - lis.begin()] = vet[i];
 		best[i] = pos - lis.begin();
-	}
-	int res = 1;
-	for (int i = 0; i <= fim; i++){
-			if (lis[i] != INF){
-				res = i;
-			}
+		res = max(res, best[i]);
 	}
 	return res;
 }
