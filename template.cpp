@@ -7,5 +7,5 @@ using namespace std;
 #define endl '\n'
 
 signed main(){
-
+	ios::sync_with_stdio(false);
 }
