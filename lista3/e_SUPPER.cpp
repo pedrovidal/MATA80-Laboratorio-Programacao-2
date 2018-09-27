@@ -6,20 +6,16 @@ using namespace std;
 #define _INF LLONG_MIN
 #define endl '\n'
 
-int lis(vector<int> & vet, vector<int> & best, vector<int> & pai, int n){
+int lis(vector<int> & vet, vector<int> & best, int n){
 	vector<int> lis(n + 1, INF);
-	vector<int> lis_id(n + 1, INF);
 	lis[0] = 0;
-	lis_id[0] = -1;
 	int res = 0;
 	for (int i = 0; i < n; i++){
 		auto pos = lower_bound(lis.begin(), lis.end(), vet[i]);
 		if (pos == lis.end()) continue;
 		int index = pos - lis.begin();
 		lis[index] = vet[i];
-		lis_id[index] = i;
 		best[i] = index;
-		pai[i] = lis_id[index - 1];
 		res = max(res, best[i]);
 	}
 	return res;
@@ -36,21 +32,36 @@ signed main(){
 			cin >> vet[i];
 		}
 		vector<int> best(n + 1, 0);
-		vector<int> pai(n + 1, -1);
 		set<int> res;
-		int melhor = lis(vet, best, pai, n);
-		for (int i = n - 1; i >= 0; i --){
+		int melhor = lis(vet, best, n);
+		
+		vector<int> aux(melhor + 2, 0);
+
+		int i;
+
+		for (i = n - 1; i >= 0; i--){
 			if (best[i] == melhor){
-				int id = i;
-				while(id > 0){
-					res.insert(vet[id]);
-					id = pai[id];
-				}
+				res.insert(vet[i]);
+				aux[best[i]] = vet[i];
+				break;
 			}
 		}
-		for (int i = 0; i < n; i++){
-			cout << vet[i] << " " << best[i] << " " << pai[i] << endl;
+
+		for (; i>= 0; i--){
+			if (aux[best[i] + 1] == 0 && best[i] == melhor){
+				res.insert(vet[i]);
+				aux[best[i]] = max(aux[best[i]], vet[i]);
+			}
+			else if (aux[best[i] + 1] > vet[i]){
+				res.insert(vet[i]);
+				aux[best[i]] = max(aux[best[i]], vet[i]);
+			}
 		}
+
+		// for (int i = 0; i < n; i++){
+		// 	cout << vet[i] << " " << best[i] << " " << pai[i] << endl;
+		// }
+
 		cout << res.size() << endl;
 		bool f = false;
 		for (int i : res){
