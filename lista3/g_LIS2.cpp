@@ -6,20 +6,26 @@ using namespace std;
 #define _INF LLONG_MIN
 #define endl '\n'
 
-bool cmp(pair<int, int> a, pair<int, int> b){
+struct compare{
+	bool operator() (const pair<int, int> & a, const pair<int, int> & b) const{
+		return a.first < b.first && a.second < b.second;
+	}
+};
+
+bool cmp( pair<int, int> a,  pair<int, int> b) {
 	return !(a.first < b.first && a.second < b.second);
 }
 
-bool cmp2(set<pair<int, int>> a, pair<int, int> b){
+bool cmp2( set<pair<int, int>, compare> a,  pair<int, int> b) {
 	return lower_bound(a.begin(), a.end(), b, cmp) != a.end();
 }
 
-bool cmp3(pair<int, int> a, pair<int, int> b){
+bool cmp3( pair<int, int> a,  pair<int, int> b) {
 	return a.first < b.first && a.second < b.second;
 }
 
 int lis(vector<pair<int, int> > & vet, int n){
-	vector<set<pair<int, int>>> front(n);
+	vector< set< pair<int, int>, compare > > front(n);
 	// for (int i = 1; i < n; i++){
 	// 	front[i].insert(make_pair(_INF,_INF));
 	// }
