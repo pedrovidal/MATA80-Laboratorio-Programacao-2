@@ -13,19 +13,23 @@ struct compare{
 };
 
 bool cmp( pair<int, int> a,  pair<int, int> b) {
-	return !(a.first < b.first && a.second < b.second);
-}
-
-bool cmp2( set<pair<int, int>, compare> a,  pair<int, int> b) {
-	return lower_bound(a.begin(), a.end(), b, cmp) != a.end();
-}
-
-bool cmp3( pair<int, int> a,  pair<int, int> b) {
 	return a.first < b.first && a.second < b.second;
 }
 
+bool lower_cmp( set<pair<int, int>> a,  pair<int, int> b) {
+	
+	for (auto it = a.rbegin(); it != a.rend(); it++){
+		// cout << (*it).first << " " << (*it).second << endl;
+		if (cmp(*it,b)){
+			return true;
+		}
+	}
+	return false;
+}
+
+
 int lis(vector<pair<int, int> > & vet, int n){
-	vector< set< pair<int, int>, compare > > front(n);
+	vector< set< pair<int, int> > > front(n);
 	// for (int i = 1; i < n; i++){
 	// 	front[i].insert(make_pair(_INF,_INF));
 	// }
@@ -33,12 +37,19 @@ int lis(vector<pair<int, int> > & vet, int n){
 	int res = 1;
 	// cout << vet[0].first << " " << vet[0].second << " - -"<< endl;
 	for (int i = 1; i < n; i++){
-		auto pos = lower_bound(front.begin(), front.end(), vet[i], cmp2);
+		// for (int j = 0; j < n; j++){
+		// 	if (front[j].empty()) continue;
+		// 	cout << "J: " << j << ": " ;
+		// 	for (auto it = front[j].begin(); it != front[j].end(); it++)
+		// 		cout << (*it).first << "," << (*it).second << " ";
+		// 	cout << endl;
+		// }
+		auto pos = lower_bound(front.begin(), front.end(), vet[i], lower_cmp);
 		if (pos == front.end()) continue;
 		int index = pos - front.begin();
 		for (auto it = front[index].begin(); it != front[index].end(); it++){
 			// cout << (*it).first << " " << (*it).second << endl;
-			if (cmp3(*it, vet[i])){
+			if (cmp(vet[i], *it)){
 				front[index].erase(it);
 			}
 		}
@@ -50,13 +61,12 @@ int lis(vector<pair<int, int> > & vet, int n){
 }
 
 signed main(){
-	ios::sync_with_stdio(false);
 	int n;
-	cin >> n;
+	scanf("%lld", &n);
 	vector<pair<int, int> > vet(n);
 	for (int i = 0; i < n; i++){
-		cin >> vet[i].first >> vet[i].second;
+		scanf("%lld%lld", &vet[i].first, &vet[i].second);
 	}
 	int melhor = lis(vet, n);
-	cout << melhor << endl;
+	printf("%lld\n", melhor);
 }
