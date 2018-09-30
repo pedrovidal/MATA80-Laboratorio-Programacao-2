@@ -6,43 +6,48 @@ using namespace std;
 #define _INF LLONG_MIN
 #define endl '\n'
 
-bool cmp(pair<int, int> a, pair<int, int> b){
-	return !(a.first < b.first && a.second < b.second) && !(b.first < a.first && b.second < a.second);
+bool cmp(int a, int b){
+	return a <= b;
 }
 
-bool cmp2(set<pair<int, int>> a, pair<int, int> b){
-	return lower_bound(a.begin(), a.end(), b, cmp) != a.end();
+bool cmp2(pair<int, int> a, pair<int, int> b){
+	if (a.first == b.first){
+		return a.second < b.second;
+	}
+	return a.first > b.first;
 }
 
-int lis(vector<pair<int, int> > & vet, int n){
-	vector<set<pair<int, int>>> front(n);
-	front[0].insert(vet[0]);
-	int res = 1;
-	cout << vet[0].first << " " << vet[0].second << " - -" << endl;
-	for (int i = 1; i < n; i++){
-		auto pos = lower_bound(front.begin(), front.end(), vet[i], cmp2);
-		if (pos == front.end()) continue;
-		int index = pos - front.begin();
-		front[index].insert(vet[i]);
-		res = max(res, index + 1);
-		cout << vet[i].first << " " << vet[i].second << " " << index + 1 << " " << res << endl;
+int lds(vector<pair<int, int>> & vet, int n){
+	vector<int> lds(n + 1, INF);
+	lds[0] = 0;
+	int res = 0;
+	for (int i = 0; i < n; i++){
+		int pos = lower_bound(lds.begin(), lds.end(), vet[i].second, cmp) - lds.begin();
+		// cout << "pos = " << pos << endl;
+		if (pos == n + 1)
+			continue;
+		lds[pos] = vet[i].second;
+		res = max(res, pos);
 	}
 	return res;
 }
 
 signed main(){
-	ios::sync_with_stdio(false);
 	int t;
-	cin >> t;
+	scanf("%lld", &t);
 	while(t--){
 		int n;
-		cin >> n;
-		vector<pair<int, int> > vet(n);
+		scanf("%lld", &n);
+		vector< map<int, int> > front(n);
+		vector< pair<int, int> > vet(n);
 		for (int i = 0; i < n; i++){
-			cin >> vet[i].first >> vet[i].second;
+			scanf("%lld%lld", &vet[i].first, &vet[i].second);
 		}
-		// sort(vet.begin(), vet.end());
-		int melhor = lis(vet, n);
-		cout << melhor << endl;
+		sort(vet.begin(), vet.end(), cmp2);
+		// cout << endl;
+		// for (int i = 0; i < n; i++){
+		// 	cout << vet[i].first << "," << vet[i].second << endl;
+		// }
+		cout << lds(vet, n) << endl;
 	}
 }
