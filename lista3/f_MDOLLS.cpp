@@ -17,16 +17,17 @@ bool cmp2(pair<int, int> a, pair<int, int> b){
 	return a.first > b.first;
 }
 
-int lds(vector<pair<int, int>> & vet, int n){
-	vector<int> lds(n + 1, INF);
-	lds[0] = 0;
+// longes non decreasing sequence
+int lnds(vector<pair<int, int>> & vet, int n){
+	vector<int> lnds(n + 1, INF);
+	lnds[0] = 0;
 	int res = 0;
 	for (int i = 0; i < n; i++){
-		int pos = lower_bound(lds.begin(), lds.end(), vet[i].second, cmp) - lds.begin();
+		int pos = lower_bound(lnds.begin(), lnds.end(), vet[i].second, cmp) - lnds.begin();
 		// cout << "pos = " << pos << endl;
 		if (pos == n + 1)
 			continue;
-		lds[pos] = vet[i].second;
+		lnds[pos] = vet[i].second;
 		res = max(res, pos);
 	}
 	return res;
@@ -48,6 +49,6 @@ signed main(){
 		// for (int i = 0; i < n; i++){
 		// 	cout << vet[i].first << "," << vet[i].second << endl;
 		// }
-		cout << lds(vet, n) << endl;
+		cout << lnds(vet, n) << endl;
 	}
 }
