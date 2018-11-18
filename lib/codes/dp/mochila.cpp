@@ -1,4 +1,4 @@
-vector<int> p(n), v(n), dp(cap+1, _INF); dp[0] = 0;
+vi p(n), v(n), dp(cap+1, _INF); dp[0] = 0;
 // read weight (p) and value (v)
 int res = 0;
 for (int i = 0; i < n; i++){
@@ -8,4 +8,3 @@ for (int i = 0; i < n; i++){
 		res = max(res, dp[j + p[i]]);		
 	}	
 }
-cout << res << endl;

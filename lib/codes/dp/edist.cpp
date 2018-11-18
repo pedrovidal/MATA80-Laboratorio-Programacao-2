@@ -1,4 +1,4 @@
-vector<vector<int> > edist(ta, vector<int>(tb, 0));
+vvi edist(ta, vi(tb, 0));
 for (int i = 0; i < ta; i++){
 	for (int j = 0; j < tb; j++){
 		if (i == 0 || j == 0){ edist[i][j] = max(i, j); continue;}
