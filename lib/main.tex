@@ -11,7 +11,7 @@
 \pagestyle{fancy}
 \fancyhf{}
 \rhead{Page \thepage}
-\lhead{Federal University of Bahia - Universidade Federal da Bahia}
+\lhead{Universidade Federal da Bahia}
 
 \input{lst}
 
@@ -86,6 +86,11 @@
 % \tableofcontents
 %\newpage
 \newpage
+
+\section{Defines}{
+	\includecode{defines.cpp}
+}
+
 \section{DP}{
     \subsection{Prob da Moeda}{
         \includecode{dp/moeda.cpp}
@@ -93,14 +98,41 @@
     \subsection{Prob da Mochila}{
         \includecode{dp/mochila.cpp}
     }
-    \subsection{LCS}{
+    \subsection{Longest Common Subsequence (LCS)}{
         \includecode{dp/lcs.cpp}
     }
     \subsection{Edit Distance}{
         \includecode{dp/edist.cpp}
     }
-    \subsection{Longest Increasing Subsequence}{
+    \subsection{Longest Increasing Subsequence (LIS)}{
         \includecode{dp/lis.cpp}
+    }
+    \subsection{Using LIS to solve LCS}{
+        \includecode{dp/lis_lcs.cpp}
+    }
+}
+
+\section{Grafos}{
+    \subsection{SCC}{
+        \includecode{grafos/scc.cpp}
+    }
+    \subsection{Bridges}{
+        \includecode{grafos/bridges.cpp}
+    }
+    \subsection{Pontos de Articulação}{
+        \includecode{grafos/articulacoes.cpp}
+    }
+    \subsection{MST}{
+        \includecode{grafos/mst.cpp}
+    }
+    \subsection{Segunda MST}{
+        \includecode{grafos/seg_mst.cpp}
+    }
+    \subsection{Dijkstra}{
+    	\includecode{grafos/dijkstra.cpp}
+    }
+    \subsection{Bellman-Ford}{
+    	\includecode{grafos/bellman_ford.cpp}
     }
 }
 
